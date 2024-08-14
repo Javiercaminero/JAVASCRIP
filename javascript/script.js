@@ -23,11 +23,12 @@ function finalizarCompra(tipoImpresora) {
     return dato
 }
 
-/*const producto = finalizarCompra("Impresora")
-const nombre = finalizarCompra("Nombre")
-const dni = finalizarCompra("DNI")
-const mail = finalizarCompra("Mail")*/
+const finalCompra = [finalizarCompra("Impresora"), finalizarCompra("Nombre"), finalizarCompra("Apellido"), finalizarCompra("DNI"), finalizarCompra("Mail")] 
 
-const finalCompra = [finalizarCompra("Impresora"), finalizarCompra("Nombre"), finalizarCompra("DNI"), finalizarCompra("Mail")] 
+alert(`Su compra ha sido exitosa:\n • Impresora: ${finalCompra[0]}\n • Nombre: ${finalCompra[1]}\n • Apellido: ${finalCompra[2]}\n • DNI: ${finalCompra[3]}\n • Mail: ${finalCompra[4]}`)
 
-alert(`Su compra ha sido exitosa:\n • Impresora: ${finalCompra[0]}\n • Nombre: ${finalCompra[1]}\n • DNI: ${finalCompra[2]}\n • Mail: ${finalCompra[3]}`)
+function costosAdicionales(finalCompra){
+    console.log("Envio $2400"+finalCompra)
+}
+
+costosAdicionales (finalCompra, console.log)
