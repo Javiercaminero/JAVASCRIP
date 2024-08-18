@@ -1,7 +1,29 @@
-.azul{
-    color: blue;
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
 }
 
-.fondo{
-    background-color: brown;
+.darkmode {
+    background-color: #333;
+    color: #fff;
+}
+
+#contenedor div {
+    margin-bottom: 10px;
+}
+
+#contenedor input {
+    width: 50px;
+    margin-left: 10px;
+}
+
+#carrito {
+    margin-top: 20px;
+}
+
+
+.darkmode{
+    background-color: rgb(26, 22, 22);
+    color: beige;
 }
