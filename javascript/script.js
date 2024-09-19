@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
             actualizarCarrito();
         })
         .catch(() => {
-            mostrarMensaje('error', 'No se pudo cargar los productos.');
+            mostrarSweetAlert('error', 'No se pudo cargar los productos.');
         });
 
     function crearProductos() {
@@ -42,17 +42,17 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             actualizarCarrito();
-            mostrarMensaje('success', `Has agregado ${cantidad} de la Impresora ${producto.nombre} ${producto.serie} al carrito.`);
+            mostrarSweetAlert('success', `Has agregado ${cantidad} de la Impresora ${producto.nombre} ${producto.serie} al carrito.`);
             guardarCarritoEnLocalStorage();
         } else {
-            mostrarMensaje('error', 'La cantidad debe ser mayor que 0.');
+            mostrarSweetAlert('error', 'La cantidad debe ser mayor que 0.');
         }
     };
 
     window.eliminarDelCarrito = function(id) {
         carrito = carrito.filter(item => item.id !== id);
         actualizarCarrito();
-        mostrarMensaje('info', 'Producto eliminado del carrito.');
+        mostrarSweetAlert('info', 'Producto eliminado del carrito.');
         guardarCarritoEnLocalStorage();
     };
 
@@ -76,25 +76,25 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     document.getElementById("confirmarCompra").onclick = function() {
-        const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
         if (carrito.length === 0) {
-            mostrarMensaje('info', 'No tienes productos en el carrito.');
+            mostrarSweetAlert('info', 'No tienes productos en el carrito.');
         } else {
-            mensajeConfirmacion.innerHTML = `
-                <p>¿Estás seguro de que deseas confirmar la compra?</p>
-                <button id="confirmarSi">Sí, comprar</button>
-                <button id="confirmarNo">Cancelar</button>
-            `;
-            document.getElementById("confirmarSi").onclick = function() {
-                mostrarResumenCompra();
-                carrito = [];
-                actualizarCarrito();
-                mensajeConfirmacion.innerHTML = '<p>Gracias por tu compra.</p>';
-                guardarCarritoEnLocalStorage();
-            };
-            document.getElementById("confirmarNo").onclick = function() {
-                mensajeConfirmacion.innerHTML = '';
-            };
+            Swal.fire({
+                title: 'Confirmar Compra',
+                text: '¿Estás seguro de que deseas confirmar la compra?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, comprar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    mostrarResumenCompra();
+                    carrito = [];
+                    actualizarCarrito();
+                    Swal.fire('Gracias por tu compra.', '', 'success');
+                    guardarCarritoEnLocalStorage();
+                }
+            });
         }
     };
 
@@ -107,14 +107,13 @@ document.addEventListener("DOMContentLoaded", function() {
         document.body.classList.toggle("darkmode");
     };
 
-    function mostrarMensaje(tipo, mensaje) {
-        const mensajeElement = document.getElementById("mensaje");
-        mensajeElement.className = tipo;
-        mensajeElement.textContent = mensaje;
-        mensajeElement.style.display = 'block';
-        setTimeout(() => {
-            mensajeElement.style.display = 'none';
-        }, 3000);
+    function mostrarSweetAlert(tipo, mensaje) {
+        Swal.fire({
+            icon: tipo,
+            title: mensaje,
+            timer: 3000,
+            showConfirmButton: false
+        });
     }
 
     function mostrarResumenCompra() {
