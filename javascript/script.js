@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     let productos = [];
 
-    // Cargar productos desde el archivo JSON
+ 
     fetch('./productos.json')
         .then(response => response.json())
         .then(data => {
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function() {
             mostrarMensaje('error', 'No se pudo cargar los productos.');
         });
 
-    // Crear elementos de productos en el DOM
+
     function crearProductos() {
         const contenedor = document.getElementById("contenedor");
         productos.forEach(producto => {
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    // Agregar producto al carrito
+
     window.agregarAlCarrito = function(id) {
         const cantidad = parseInt(document.getElementById(`cantidad-${id}`).value);
 
@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
-    // Eliminar producto del carrito
+
     window.eliminarDelCarrito = function(id) {
         carrito = carrito.filter(item => item.id !== id);
         actualizarCarrito();
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function() {
         guardarCarritoEnLocalStorage();
     };
 
-    // Actualizar la lista y el total del carrito
+
     function actualizarCarrito() {
         const carritoLista = document.getElementById("carritoLista");
         const totalElement = document.getElementById("total");
@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function() {
         totalElement.textContent = `Total: $${total.toLocaleString('es-CO')}`;
     }
 
-    // Confirmar compra
+
     document.getElementById("confirmarCompra").onclick = function() {
         const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
         if (carrito.length === 0) {
@@ -103,18 +103,18 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
-    // Mostrar/ocultar carrito
+
     document.getElementById("mostrarCarrito").onclick = function() {
         const carritoDiv = document.getElementById("carrito");
         carritoDiv.style.display = carritoDiv.style.display === 'none' ? 'block' : 'none';
     };
 
-    // Toggle dark mode
+
     document.getElementById("modonocturno").onclick = function() {
         document.body.classList.toggle("darkmode");
     };
 
-    // Función para mostrar mensajes
+
     function mostrarMensaje(tipo, mensaje) {
         const mensajeElement = document.getElementById("mensaje");
         mensajeElement.className = tipo;
@@ -122,10 +122,10 @@ document.addEventListener("DOMContentLoaded", function() {
         mensajeElement.style.display = 'block';
         setTimeout(() => {
             mensajeElement.style.display = 'none';
-        }, 3000); // Limpiar mensaje después de 3 segundos
+        }, 3000); 
     }
 
-    // Guardar carrito en localStorage
+
     function guardarCarritoEnLocalStorage() {
         localStorage.setItem('carrito', JSON.stringify(carrito));
     }
