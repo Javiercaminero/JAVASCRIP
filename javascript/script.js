@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function() {
     let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
     let productos = [];
 
- 
     fetch('./productos.json')
         .then(response => response.json())
         .then(data => {
@@ -13,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(() => {
             mostrarMensaje('error', 'No se pudo cargar los productos.');
         });
-
 
     function crearProductos() {
         const contenedor = document.getElementById("contenedor");
@@ -29,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function() {
             contenedor.appendChild(productoDiv);
         });
     }
-
 
     window.agregarAlCarrito = function(id) {
         const cantidad = parseInt(document.getElementById(`cantidad-${id}`).value);
@@ -52,14 +49,12 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
-
     window.eliminarDelCarrito = function(id) {
         carrito = carrito.filter(item => item.id !== id);
         actualizarCarrito();
         mostrarMensaje('info', 'Producto eliminado del carrito.');
         guardarCarritoEnLocalStorage();
     };
-
 
     function actualizarCarrito() {
         const carritoLista = document.getElementById("carritoLista");
@@ -80,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function() {
         totalElement.textContent = `Total: $${total.toLocaleString('es-CO')}`;
     }
 
-
     document.getElementById("confirmarCompra").onclick = function() {
         const mensajeConfirmacion = document.getElementById("mensajeConfirmacion");
         if (carrito.length === 0) {
@@ -92,6 +86,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <button id="confirmarNo">Cancelar</button>
             `;
             document.getElementById("confirmarSi").onclick = function() {
+                mostrarResumenCompra();
                 carrito = [];
                 actualizarCarrito();
                 mensajeConfirmacion.innerHTML = '<p>Gracias por tu compra.</p>';
@@ -103,17 +98,14 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
-
     document.getElementById("mostrarCarrito").onclick = function() {
         const carritoDiv = document.getElementById("carrito");
         carritoDiv.style.display = carritoDiv.style.display === 'none' ? 'block' : 'none';
     };
 
-
     document.getElementById("modonocturno").onclick = function() {
         document.body.classList.toggle("darkmode");
     };
-
 
     function mostrarMensaje(tipo, mensaje) {
         const mensajeElement = document.getElementById("mensaje");
@@ -122,9 +114,25 @@ document.addEventListener("DOMContentLoaded", function() {
         mensajeElement.style.display = 'block';
         setTimeout(() => {
             mensajeElement.style.display = 'none';
-        }, 3000); 
+        }, 3000);
     }
 
+    function mostrarResumenCompra() {
+        const resumenCompra = document.createElement('div');
+        resumenCompra.id = 'resumenCompra';
+        resumenCompra.innerHTML = `
+            <h2>Resumen de la Compra</h2>
+            <ul>
+                ${carrito.map(item => `
+                    <li>
+                        Impresora ${item.nombre} ${item.serie} - $${item.precio.toLocaleString('es-CO')} x ${item.cantidad}
+                    </li>
+                `).join('')}
+            </ul>
+            <p>Total: $${carrito.reduce((acc, item) => acc + item.precio * item.cantidad, 0).toLocaleString('es-CO')}</p>
+        `;
+        document.body.appendChild(resumenCompra);
+    }
 
     function guardarCarritoEnLocalStorage() {
         localStorage.setItem('carrito', JSON.stringify(carrito));
