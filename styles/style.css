@@ -1,12 +1,11 @@
-
 body {
     font-family: Arial, sans-serif;
     margin: 20px;
 }
 
 .darkmode {
-    background-color: #333;
-    color: #fff;
+    background-color: rgb(26, 22, 22);
+    color: beige;
 }
 
 #contenedor div {
@@ -22,8 +21,31 @@ body {
     margin-top: 20px;
 }
 
+#mensaje, #mensajeConfirmacion {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    display: none;
+}
 
-.darkmode{
-    background-color: rgb(26, 22, 22);
-    color: beige;
+#mensaje.success {
+    background-color: #4CAF50; /* Verde */
+}
+
+#mensaje.error {
+    background-color: #f44336; /* Rojo */
+}
+
+#mensaje.info {
+    background-color: #2196F3; /* Azul */
+}
+
+#mensajeConfirmacion {
+    display: flex;
+    justify-content: space-between;
+}
+
+#mensajeConfirmacion button {
+    margin: 5px;
 }
